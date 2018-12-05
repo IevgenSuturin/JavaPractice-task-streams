@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,6 +16,7 @@ public class HometaskTest {
 
 		//Replace here
 		long quantity = 0;
+		quantity = listOfNumbers.stream().collect(Collectors.summingInt(i->i));
 
 		assertThat(quantity).isEqualTo(15L);
 	}
@@ -26,6 +28,8 @@ public class HometaskTest {
 		//Replace here
 		List<Integer> numbersGreaterThan5 = Collections.emptyList();
 
+		numbersGreaterThan5 = numbers.stream().filter(i->i%2==0&&i>5).collect(Collectors.toList());
+
 		assertThat(numbersGreaterThan5).contains(6, 8);
 	}
 
@@ -35,6 +39,7 @@ public class HometaskTest {
 
 		//Replace here
 		List<String> multipliedNumbersAsString = Collections.emptyList();
+		multipliedNumbersAsString = numbers.stream().map(i->new Integer(2*i).toString()).collect(Collectors.toList());
 
 		assertThat(multipliedNumbersAsString).contains("2", "4", "6", "8", "10");
 	}
@@ -45,6 +50,7 @@ public class HometaskTest {
 
 		//Replace here
 		boolean anyNumberGreaterThan4 = false;
+		anyNumberGreaterThan4 = numbers.stream().filter(i->i>4).count()>0;
 
 		assertThat(anyNumberGreaterThan4).isTrue();
 	}
@@ -55,6 +61,7 @@ public class HometaskTest {
 
 		//Replace here
 		boolean eachNumberIsPair = false;
+		eachNumberIsPair = numbers.stream().filter(i->i%2==0).count()==numbers.size();
 
 		assertThat(eachNumberIsPair).isTrue();
 	}
@@ -65,6 +72,7 @@ public class HometaskTest {
 
 		//Replace here
 		List<String> sortedList = Collections.emptyList();
+		sortedList = listOfWords.stream().sorted().collect(Collectors.toList());
 
 		assertThat(sortedList).contains("A", "B", "C", "D", "E");
 	}
@@ -80,6 +88,7 @@ public class HometaskTest {
 
 		//Replace here
 		Optional<BigDecimal> reduced = Optional.empty();
+		reduced = numbers.stream().filter(i->i.compareTo(new BigDecimal(0))==1).reduce((a, b)-> a.multiply(b));
 
 		assertThat(reduced.isPresent()).isTrue();
 		assertThat(reduced.get()).isEqualByComparingTo("300");
@@ -96,6 +105,7 @@ public class HometaskTest {
 
 		//Replace here
 		Map<BlogPostType, List<BlogPost>> postsPerType = Collections.emptyMap();
+		postsPerType = posts.stream().collect(Collectors.groupingBy(BlogPost::getType));
 
 		assertThat(postsPerType.get(BlogPostType.NEWS).size()).isEqualTo(2);
 		assertThat(postsPerType.get(BlogPostType.GUIDE).size()).isEqualTo(1);
@@ -113,6 +123,7 @@ public class HometaskTest {
 
 		//Replace here
 		Map<String, BlogPost> postPerTitle = Collections.emptyMap();
+		postPerTitle = posts.stream().collect(Collectors.toMap(BlogPost::getTitle, p->p));
 
 		assertThat(postPerTitle.get("News item 1").getTitle()).isEqualTo("News item 1");
 		assertThat(postPerTitle.get("Tech review 1").getTitle()).isEqualTo("Tech review 1");
