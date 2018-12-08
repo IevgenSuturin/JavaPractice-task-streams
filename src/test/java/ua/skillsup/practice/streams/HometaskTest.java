@@ -28,7 +28,7 @@ public class HometaskTest {
 		//Replace here
 		List<Integer> numbersGreaterThan5 = Collections.emptyList();
 
-		numbersGreaterThan5 = numbers.stream().filter(i->i%2==0&&i>5).collect(Collectors.toList());
+		numbersGreaterThan5 = numbers.stream().filter(i->i%2==0).filter(i->i>5).collect(Collectors.toList());
 
 		assertThat(numbersGreaterThan5).contains(6, 8);
 	}
@@ -39,7 +39,7 @@ public class HometaskTest {
 
 		//Replace here
 		List<String> multipliedNumbersAsString = Collections.emptyList();
-		multipliedNumbersAsString = numbers.stream().map(i->new Integer(2*i).toString()).collect(Collectors.toList());
+		multipliedNumbersAsString = numbers.stream().map(i->2*i).map(i->new Integer(i).toString()).collect(Collectors.toList());
 
 		assertThat(multipliedNumbersAsString).contains("2", "4", "6", "8", "10");
 	}
@@ -50,7 +50,7 @@ public class HometaskTest {
 
 		//Replace here
 		boolean anyNumberGreaterThan4 = false;
-		anyNumberGreaterThan4 = numbers.stream().filter(i->i>4).count()>0;
+		anyNumberGreaterThan4 = numbers.stream().anyMatch(i->i>4);
 
 		assertThat(anyNumberGreaterThan4).isTrue();
 	}
@@ -61,7 +61,7 @@ public class HometaskTest {
 
 		//Replace here
 		boolean eachNumberIsPair = false;
-		eachNumberIsPair = numbers.stream().filter(i->i%2==0).count()==numbers.size();
+		eachNumberIsPair = numbers.stream().allMatch(i->i%2==0);
 
 		assertThat(eachNumberIsPair).isTrue();
 	}
@@ -88,7 +88,7 @@ public class HometaskTest {
 
 		//Replace here
 		Optional<BigDecimal> reduced = Optional.empty();
-		reduced = numbers.stream().filter(i->i.compareTo(new BigDecimal(0))==1).reduce((a, b)-> a.multiply(b));
+		reduced = numbers.stream().filter(i->i.signum()==1).reduce((a, b)-> a.multiply(b));
 
 		assertThat(reduced.isPresent()).isTrue();
 		assertThat(reduced.get()).isEqualByComparingTo("300");
